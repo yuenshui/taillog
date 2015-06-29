@@ -128,8 +128,12 @@ module.exports.createListen = function (option) {
 				var read_size = nextPoint - app.Point;
 				var buf_size = app.bufferSize > read_size ? read_size : app.bufferSize;
 				var buf = new Buffer(buf_size);
-				var rs = fs.readSync(app.fileHand, buf, 0, read_size, app.Point);
-
+				try {
+					var rs = fs.readSync(app.fileHand, buf, 0, read_size, app.Point);
+				}
+				catch(e) {
+					console.log(e);
+				}
 				data = rs ? buf.toString('utf-8') : "";
 
 				app.Point += data.length;
